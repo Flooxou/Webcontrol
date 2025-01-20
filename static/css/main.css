@@ -1,0 +1,150 @@
+html {
+    margin-right: 5rem; /* Espace avec le bord droit */
+}
+
+body { /* Tu peux changer la police si tu veux, la je t'ai remise celle de bootstrap */
+    font-family: system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans","Liberation Sans",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+}
+
+h1 {
+    text-align: center;
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+h2 {
+    font: 2rem;
+    color: #212529;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+}
+
+button[type="submit"] {
+    min-width: 10%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    background-color: #f8f9fa;
+    color: #212529;
+    font-size: 0.8rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #212529; /* Couleur au survol */
+    color: #f8f9fa;
+}
+
+input[type="checkbox"] {
+    appearance: none;       /* Pour pouvoir styliser la case librement */
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: background-color 0.3s ease;
+}
+
+input[type="checkbox"]:checked {
+    background-color: #212529; /* Couleur de la case cochée */
+    border-color: #212529;
+}
+
+label {
+    vertical-align: super; /* Pour aligner le texte avec la case (j'ai mis ça je connaissais pas mdrrr) */
+}
+
+.table { /* Style de la table */
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 18px;
+    text-align: left;
+}
+
+.table thead tr {
+    background-color: #007bff; /* Couleur de l'en-tête */
+    color: #ffffff;
+    text-align: left;
+    font-weight: bold;
+}
+
+.table th,
+.table td {
+    padding: 12px 15px;
+    border: 1px solid #dddddd;
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: #f3f3f3; /* Couleur des rangées paires */
+}
+
+.table tbody tr:hover {
+    background-color: #f1f1f1; /* Couleur au survol */
+    cursor: pointer;
+}
+
+.table .btn {
+    padding: 5px 10px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.table .btn:hover {
+    background-color: #0056b3; /* Couleur au survol */
+    text-decoration: none;
+}
+
+.btn {
+    min-width: 10%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    background-color: #f8f9fa;
+    color: #212529;
+    font-size: 0.8rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #212529; /* Couleur au survol */
+    color: #f8f9fa;
+}
+
+/* Cadre pour les sections de contenu */
+.content-box {
+    border: 1px solid #ddd; /* Bordure légère */
+    border-radius: 5px; /* Coins arrondis */
+    padding: 0; /* Supprime le padding interne */
+    background-color: #f9f9f9; /* Couleur de fond légèrement grise */
+    font-family: monospace; /* Police adaptée au code */
+    white-space: pre-wrap; /* Préserve les retours à la ligne dans le contenu */
+    max-height: 200px; /* Limite la hauteur */
+    overflow-y: auto; /* Ajoute une barre de défilement si le contenu dépasse */
+    margin-bottom: 10px; /* Espacement en bas */
+}
+
+/* Style spécifique pour le <pre> dans les cadres */
+.content-box pre {
+    margin: 0; /* Supprime les marges par défaut du <pre> */
+    padding: 10px; /* Ajoute un léger padding interne (optionnel) */
+}

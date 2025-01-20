@@ -1,0 +1,107 @@
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 75px;
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    background-color: rgb(243, 243, 243);
+    padding-top: 20px;
+
+    transition: width 0.3s ease;
+}
+
+.navbar-open {
+    width: 200px !important; /* Largeur du menu si tu la changes faut changer aussi la taille dans container-open */
+}
+
+.container {
+    margin-left: 95px;
+    transition: margin-left 0.3s ease;
+}
+
+.container-open {
+    margin-left: 220px; /* Si tu veux modifier la taille du menu faut modifier cette valeur : 200px de la navbar + 20px de marge */
+}
+
+.navbar-container {
+    display: none;
+    transition: opacity 0.3s ease;
+}
+
+.navbar-container-open {
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar-nav {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    padding-left: 20px;
+}
+
+.nav-item {
+    padding: 5px 0;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: black;
+    font-size: 20px;
+}
+
+.navbar-brand {
+    text-decoration: none;
+    color: black;
+    font-size: 2rem;
+    text-align: center;
+    font-weight: bold;
+}
+
+.icone-menu {
+    font-size: 3rem;
+}
+
+.nav-dropbox {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.nav-dropbox.open {
+    max-height: 200px;
+}
+
+.nav-dropbox a {
+    display: list-item;
+    list-style: disc; /* Forme de la liste des liens */
+    list-style-position: inside; /* Pour que les petits points soit cliquables */
+    margin-left: 10px;
+    color: rgb(73, 73, 73); /* Change la couleur du lien */
+}
+
+.nav-dropbox a:hover {
+    color: black; /* Change la couleur du texte au survol */
+}
+
+.dropbox-toggle {
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.dropbox-toggle i {
+    position: relative;
+    top: -2px;
+    font-size: 1.2rem;
+    margin-left: 5px;
+    transition: transform 0.3s ease; /* Ajoute une transition sur la rotation */
+}
+
+.dropbox-toggle i.open {
+    transform: rotate(90deg); /* Fait pivoter l'icône pour simuler l'ouverture */
+}
