@@ -1,4 +1,3 @@
-from flask import jsonify
 import dns.query
 import dns.update
 from . import DNS_SERVER
