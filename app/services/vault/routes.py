@@ -5,11 +5,12 @@ vault_routes = Blueprint('vault_routes', __name__)
 
 @vault_routes.route('/admin')
 def admin():
-    """Add a docstring."""
+    """Render the Vault administration interface."""
     return render_template('vault/admin.html')
 
 @vault_routes.route('/issue_certificate', methods=['POST'])
 def issue_certificate():
+    """Issue a certificate from Vault using form fields."""
     path = request.form['path']
     role_name = request.form['role_name']
     common_name = request.form['common_name']
@@ -29,12 +30,12 @@ def issue_certificate():
 
 @vault_routes.route('/list_certificates')
 def list_certificates_route():
-    """Add a docstring."""
+    """Show all certificates available in Vault."""
     certs = list_certificates()
     return render_template('vault/list_certificates.html', certs=certs)
 
 @vault_routes.route('/certificate_details/<serial>', methods=['GET'])
 def certificate_details(serial):
-    """Add a docstring."""
+    """Display details for the certificate identified by ``serial``."""
     cert_details = get_certificate_details(serial)
     return render_template('vault/certificate_details.html', cert=cert_details)

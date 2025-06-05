@@ -6,12 +6,12 @@ dns_routes = Blueprint('dns_routes', __name__)
 
 @dns_routes.route('/admin')
 def admin():
-    """Add a docstring."""
+    """Render the DNS administration interface."""
     return render_template('dns/admin.html')
 
 @dns_routes.route('/zones', methods=['POST'])
 def create_zone_route():
-    """Add a docstring."""
+    """Create a DNS zone from form parameters."""
     zone_name = request.form['zone_name']
     admin_email = request.form['admin_email']
     success, message = create_zone(zone_name, admin_email)
@@ -20,14 +20,14 @@ def create_zone_route():
 
 @dns_routes.route('/zones/<zone_name>', methods=['POST'])
 def delete_zone_route(zone_name):
-    """Add a docstring."""
+    """Delete the DNS zone specified in the URL."""
     success, message = delete_zone(zone_name)
     flash(message, 'success' if success else 'danger')
     return redirect(url_for('dns_routes.admin'))
 
 @dns_routes.route('/records', methods=['POST'])
 def add_record_route():
-    
+    """Add a DNS record based on form data."""
     zone_name = request.form['zone_name']
     record_name = request.form['record_name']
     record_type = request.form['record_type']
@@ -42,13 +42,13 @@ def add_record_route():
 
 @dns_routes.route('/records/<zone_name>/<record_name>', methods=['POST'])
 def delete_record_route(zone_name, record_name):
-    """Add a docstring."""
+    """Remove a DNS record from a given zone."""
     success, message = delete_record(zone_name, record_name)
     flash(message, 'success' if success else 'danger')
     return redirect(url_for('dns_routes.admin'))
 
 @dns_routes.route('/records/<zone_name>', methods=['GET'])
 def list_records_route(zone_name):
-    """Add a docstring."""
+    """Display all DNS records for the given zone."""
     records = list_records(zone_name)
     return render_template('dns/list_records.html', zone_name=zone_name, records=records)
