@@ -1,0 +1,4 @@
+Flask
+hvac
+dnspython
+cryptography
