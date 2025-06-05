@@ -39,10 +39,6 @@ def add_record_route():
         return jsonify({"message": "Enregistrement ajouté avec succès", "dns_response": str(response)}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-    
-    success, message = add_record(zone_name, record_name, record_type, record_value, ttl)
-    flash(message, 'success' if success else 'danger')
-    return redirect(url_for('dns_routes.admin'))
 
 @dns_routes.route('/records/<zone_name>/<record_name>', methods=['POST'])
 def delete_record_route(zone_name, record_name):
