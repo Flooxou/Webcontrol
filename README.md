@@ -25,8 +25,8 @@ The application can be configured with several environment variables:
 - `FLASK_ENV` – set to `development` to enable debug mode.
 - `SECRET_KEY` – secret key used by Flask. You can also edit `config.py` to
   change the default value.
-- `VAULT_ADDR` and `VAULT_TOKEN` – Vault server address and token if you modify
-  `app/services/vault/__init__.py` to read these values.
+- `VAULT_ADDR` – address of the Vault server used by the application.
+- `VAULT_TOKEN` – authentication token for Vault.
 - `DNS_SERVER` – address of the DNS server, defined in `app/services/dns/__init__.py`.
 
 ## Running the Application
