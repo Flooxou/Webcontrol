@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vaults - Webcontrol</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome_6.5.0_all.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/menu.css') }}">
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</head>
+
+<body>
+    <nav class="navbar">
+        <i id="menu" class="icone-menu fa-solid fa-bars"></i>
+        <div class="navbar-container">
+            <a class="navbar-brand" href="{{ url_for('main_routes.home') }}">Menu</a>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <p class="dropbox-toggle">Vault <i class="fa-solid fa-chevron-right"></i></p>
+                    <div class="nav-dropbox">
+                        <a class="nav-link" href="{{ url_for('vault_routes.admin') }}">Administration</a>
+                        <a class="nav-link" href="{{ url_for('vault_routes.list_certificates_route') }}">Certificats</a>
+                        <a class="nav-link" href="{{ url_for('vault_routes.servers') }}">Serveurs</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <p class="dropbox-toggle">DNS <i class="fa-solid fa-chevron-right"></i></p>
+                    <div class="nav-dropbox">
+                        <a class="nav-link" href="{{ url_for('dns_routes.admin') }}">Administration</a>
+                        <a class="nav-link" href="/">Liste enregistrements</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <h1>Serveurs Vault</h1>
+        <form method="post" action="{{ url_for('vault_routes.servers') }}">
+            <input type="text" name="name" placeholder="Nom" required>
+            <input type="text" name="address" placeholder="Adresse" required>
+            <input type="text" name="token" placeholder="Token" required>
+            <button type="submit" class="btn">Ajouter</button>
+        </form>
+        <h2>Choisir le Vault actif</h2>
+        <form method="post" action="{{ url_for('vault_routes.select_server') }}">
+            <select name="vault_id">
+                {% for server in servers %}
+                <option value="{{ server.id }}" {% if server.id == selected_id %}selected{% endif %}>{{ server.name }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn">Sélectionner</button>
+        </form>
+        <h2>Liste des Vaults</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Adresse</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for server in servers %}
+                <tr>
+                    <td>{{ server.name }}</td>
+                    <td>{{ server.address }}</td>
+                    <td>
+                        <form method="post" action="{{ url_for('vault_routes.delete_server', server_id=server.id) }}" style="display:inline-block">
+                            <button type="submit" class="btn btn-danger">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
+
