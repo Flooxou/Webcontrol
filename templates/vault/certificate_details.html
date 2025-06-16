@@ -12,8 +12,41 @@
 </head>
 
 <body>
+    <nav class="navbar">
+        <i id="menu" class="icone-menu fa-solid fa-bars"></i>
+        <div class="navbar-container">
+            <a class="navbar-brand" href="{{ url_for('main_routes.home')}}">Menu</a>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <p class="dropbox-toggle">Vault <i class="fa-solid fa-chevron-right"></i></p>
+                    <div class="nav-dropbox">
+                        <a class="nav-link" href="{{ url_for('vault_routes.admin')}}">Administration</a>
+                        <a class="nav-link" href="{{ url_for('vault_routes.list_certificates_route')}}">Certificats</a>
+                        <a class="nav-link" href="{{ url_for('vault_routes.servers')}}">Serveurs</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <p class="dropbox-toggle">DNS <i class="fa-solid fa-chevron-right"></i></p>
+                    <div class="nav-dropbox">
+                        <a class="nav-link" href="{{ url_for('dns_routes.admin')}}">Administration</a>
+                        <a class="nav-link" href="/">Liste enregistrements</a>
+                    </div>
+                </li>
+            </ul>
+            <form method="post" action="{{ url_for('vault_routes.select_server') }}" class="nav-form">
+                <select name="vault_id" onchange="this.form.submit()">
+                    {% for server in vault_servers %}
+                    <option value="{{ server.id }}" {% if server.id == vault_selected_id %}selected{% endif %}>{{ server.name }}</option>
+                    {% endfor %}
+                </select>
+            </form>
+        </div>
+    </nav>
     <div class="container">
         <h1>Certificate Details</h1>
+        {% if vault_active_server %}
+        <p>Vault actif : {{ vault_active_server.name }} ({{ vault_active_server.address }})</p>
+        {% endif %}
         <table class="table">
             <tbody>
                 {% for key, value in cert.items() %}

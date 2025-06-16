@@ -105,3 +105,16 @@
 .dropbox-toggle i.open {
     transform: rotate(90deg); /* Fait pivoter l'icône pour simuler l'ouverture */
 }
+
+/* Formulaire de sélection du Vault actif dans la barre latérale */
+.nav-form {
+    width: 100%;
+    padding: 10px;
+}
+
+.nav-form select {
+    width: 100%;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
