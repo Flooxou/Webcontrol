@@ -44,6 +44,9 @@
     </nav>
     <div class="container">
         <h1>Certificate Details</h1>
+        {% if vault_active_server %}
+        <p>Vault actif : {{ vault_active_server.name }} ({{ vault_active_server.address }})</p>
+        {% endif %}
         <table class="table">
             <tbody>
                 {% for key, value in cert.items() %}

@@ -44,6 +44,9 @@
     </nav>
     <div class="container">
         <h1>Vault PKI Administration</h1>
+        {% if vault_active_server %}
+        <p>Vault actif : {{ vault_active_server.name }} ({{ vault_active_server.address }})</p>
+        {% endif %}
         <form id="certificateForm" method="post" action="{{ url_for('vault_routes.issue_certificate')}}">
             <h2>Emettre un certificat</h2>
             <input type="text" name="path" placeholder="PKI Path (e.g., pki)" required>

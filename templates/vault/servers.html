@@ -44,6 +44,9 @@
     </nav>
     <div class="container">
         <h1>Serveurs Vault</h1>
+        {% if vault_active_server %}
+        <p>Vault actif : {{ vault_active_server.name }} ({{ vault_active_server.address }})</p>
+        {% endif %}
         <form method="post" action="{{ url_for('vault_routes.servers') }}">
             <input type="text" name="name" placeholder="Nom" required>
             <input type="text" name="address" placeholder="Adresse" required>
