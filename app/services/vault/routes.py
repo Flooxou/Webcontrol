@@ -5,6 +5,17 @@ from . import configure_client
 
 vault_routes = Blueprint('vault_routes', __name__)
 
+
+@vault_routes.app_context_processor
+def inject_vault_servers():
+    """Provide Vault servers and active selection to templates."""
+    servers = VaultServer.query.all()
+    selected_id = session.get('vault_id')
+    return {
+        'vault_servers': servers,
+        'vault_selected_id': selected_id,
+    }
+
 @vault_routes.route('/admin')
 def admin():
     """Render the Vault administration interface."""
@@ -36,7 +47,7 @@ def select_server():
     session['vault_id'] = server.id
     configure_client(server.address, server.token)
     flash('Vault selectionne', 'success')
-    return redirect(url_for('vault_routes.servers'))
+    return redirect(request.referrer or url_for('vault_routes.servers'))
 
 
 @vault_routes.route('/servers/delete/<int:server_id>', methods=['POST'])
