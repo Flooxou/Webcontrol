@@ -33,6 +33,13 @@
                     </div>
                 </li>
             </ul>
+            <form method="post" action="{{ url_for('vault_routes.select_server') }}" class="nav-form">
+                <select name="vault_id" onchange="this.form.submit()">
+                    {% for server in vault_servers %}
+                    <option value="{{ server.id }}" {% if server.id == vault_selected_id %}selected{% endif %}>{{ server.name }}</option>
+                    {% endfor %}
+                </select>
+            </form>
         </div>
     </nav>
     <div class="container">
