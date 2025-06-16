@@ -2,3 +2,4 @@ Flask
 hvac
 dnspython
 cryptography
+Flask-SQLAlchemy
