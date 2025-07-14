@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, jsonify
 
 # Création du blueprint principal
 main_routes = Blueprint('main_routes', __name__)
@@ -6,4 +6,5 @@ main_routes = Blueprint('main_routes', __name__)
 # Exemple de route générale (page d'accueil)
 @main_routes.route('/')
 def home():
-    return render_template('index.html')
+    """Simple health endpoint returning a JSON message."""
+    return jsonify({"message": "Webcontrol API"})

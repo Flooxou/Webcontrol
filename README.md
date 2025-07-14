@@ -1,8 +1,8 @@
 # Webcontrol
 
-Webcontrol is a small Flask application that provides a web interface for managing
-HashiCorp Vault PKI certificates and basic DNS records. The project bundles a few
-HTML templates with minimal JavaScript and CSS.
+Webcontrol is a small Flask API that exposes endpoints to manage HashiCorp Vault
+PKI certificates and basic DNS records. A separate front end is located in the
+`frontend/` directory and can be served by any static web server.
 
 ## Installation
 
@@ -47,6 +47,9 @@ Alternatively:
 python run.py
 ```
 
+The frontend contained in the `frontend/` directory can be served separately,
+for example using `python -m http.server`.
+
 ## Offline Assets
 
-Font Awesome styles are included in static.
+Font Awesome styles are included in `frontend/static`.
