@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 from app.routes import main_routes
 from app.services.vault import vault_routes
 from app.services.dns import dns_routes
@@ -7,6 +8,7 @@ from .models import db
 
 def create_app():
     app = Flask("Webcontrol")
+    CORS(app)
     app.config.from_object('config.Config')
     app.config.setdefault('SQLALCHEMY_DATABASE_URI', 'sqlite:///webcontrol.db')
     app.config.setdefault('SQLALCHEMY_TRACK_MODIFICATIONS', False)

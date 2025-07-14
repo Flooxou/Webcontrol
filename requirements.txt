@@ -3,3 +3,4 @@ hvac
 dnspython
 cryptography
 Flask-SQLAlchemy
+Flask-Cors
