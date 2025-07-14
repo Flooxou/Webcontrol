@@ -47,8 +47,21 @@ Alternatively:
 python run.py
 ```
 
-The frontend contained in the `frontend/` directory can be served separately,
-for example using `python -m http.server`.
+The frontend in the `frontend/` directory is a static web interface. It can be
+served by any static web server (for example `python -m http.server`) and will
+interact with the API running on port 5000.
+
+## Docker
+
+The project provides Docker images for both the API and the web interface.
+Start them together with:
+
+```bash
+docker compose up --build
+```
+
+The API will be available on <http://localhost:5000> and the frontend on
+<http://localhost:8080>.
 
 ## Offline Assets
 
