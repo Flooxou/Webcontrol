@@ -49,7 +49,4 @@ python run.py
 
 ## Offline Assets
 
-Font Awesome styles are included in
-`static/css/font-awesome_6.5.0_all.min.css`. To run the interface without
-internet access, download the matching Font Awesome 6.5.0 package and copy its
-`webfonts` directory into `static/webfonts/`.
+Font Awesome styles are included in static.
