@@ -1,11 +1,7 @@
 from flask import (
     Blueprint,
-    render_template,
     request,
     jsonify,
-    redirect,
-    url_for,
-    flash,
     session,
 )
 
@@ -26,72 +22,63 @@ def load_active_vault():
             configure_client(server.address, server.token)
 
 
-@vault_routes.app_context_processor
-def inject_vault_servers():
-    """Provide Vault servers and active selection to templates."""
-    servers = VaultServer.query.all()
-    selected_id = session.get('vault_id')
-    active = VaultServer.query.get(selected_id) if selected_id else None
-    return {
-        'vault_servers': servers,
-        'vault_selected_id': selected_id,
-        'vault_active_server': active,
-    }
+# API does not use template context processors
 
 @vault_routes.route('/admin')
 def admin():
-    """Render the Vault administration interface."""
-    return render_template('vault/admin.html')
+    """Return a simple message for the admin endpoint."""
+    return jsonify({"message": "Vault administration"})
 
 
 @vault_routes.route('/servers', methods=['GET', 'POST'])
 def servers():
     """List and create Vault servers."""
     if request.method == 'POST':
-        name = request.form['name']
-        address = request.form['address']
-        token = request.form['token']
-        server = VaultServer(name=name, address=address, token=token)
+        data = request.get_json() or {}
+        server = VaultServer(
+            name=data.get('name'),
+            address=data.get('address'),
+            token=data.get('token'),
+        )
         db.session.add(server)
         db.session.commit()
-        flash('Vault ajoute', 'success')
-        return redirect(url_for('vault_routes.servers'))
+        return jsonify({"id": server.id, "name": server.name, "address": server.address}), 201
+
     servers = VaultServer.query.all()
-    selected_id = session.get('vault_id')
-    return render_template('vault/servers.html', servers=servers, selected_id=selected_id)
+    result = [{"id": s.id, "name": s.name, "address": s.address} for s in servers]
+    return jsonify(result)
 
 
 @vault_routes.route('/servers/select', methods=['POST'])
 def select_server():
     """Select the active Vault server."""
-    server_id = int(request.form['vault_id'])
+    data = request.get_json() or {}
+    server_id = int(data.get('vault_id'))
     server = VaultServer.query.get_or_404(server_id)
     session['vault_id'] = server.id
     configure_client(server.address, server.token)
-    flash('Vault selectionne', 'success')
-    return redirect(request.referrer or url_for('vault_routes.servers'))
+    return jsonify({"status": "selected", "server_id": server.id})
 
 
-@vault_routes.route('/servers/delete/<int:server_id>', methods=['POST'])
+@vault_routes.route('/servers/<int:server_id>', methods=['DELETE'])
 def delete_server(server_id):
     """Delete a Vault server."""
     server = VaultServer.query.get_or_404(server_id)
     db.session.delete(server)
     db.session.commit()
-    flash('Vault supprime', 'success')
-    return redirect(url_for('vault_routes.servers'))
+    return jsonify({"status": "deleted"})
 
 @vault_routes.route('/issue_certificate', methods=['POST'])
 def issue_certificate():
     """Issue a certificate from Vault using form fields."""
     if 'vault_id' not in session:
-        flash('Veuillez s\u00e9lectionner un serveur Vault', 'warning')
-        return redirect(url_for('vault_routes.servers'))
-    path = request.form['path']
-    role_name = request.form['role_name']
-    common_name = request.form['common_name']
-    alt_names = request.form['alt_names']
-    ttl = request.form['ttl']
+        return jsonify({"error": "Vault server not selected"}), 400
+    data = request.get_json() or {}
+    path = data.get('path')
+    role_name = data.get('role_name')
+    common_name = data.get('common_name')
+    alt_names = data.get('alt_names')
+    ttl = data.get('ttl')
     try:
         certificate, private_key, ca_chain = create_certificate(path, role_name, common_name, alt_names, ttl)
         
@@ -106,19 +93,17 @@ def issue_certificate():
 
 @vault_routes.route('/list_certificates')
 def list_certificates_route():
-    """Show all certificates available in Vault."""
+    """Return all certificates available in Vault."""
     if 'vault_id' not in session:
-        flash('Veuillez s\u00e9lectionner un serveur Vault', 'warning')
-        return redirect(url_for('vault_routes.servers'))
+        return jsonify({"error": "Vault server not selected"}), 400
     certs = list_certificates()
-    return render_template('vault/list_certificates.html', certs=certs)
+    return jsonify(certs)
 
 @vault_routes.route('/certificate_details/<serial>', methods=['GET'])
 def certificate_details(serial):
-    """Display details for the certificate identified by ``serial``."""
+    """Return details for the certificate identified by ``serial``."""
     if 'vault_id' not in session:
-        flash('Veuillez s\u00e9lectionner un serveur Vault', 'warning')
-        return redirect(url_for('vault_routes.servers'))
+        return jsonify({"error": "Vault server not selected"}), 400
     cert_details = get_certificate_details(serial)
-    return render_template('vault/certificate_details.html', cert=cert_details)
+    return jsonify(cert_details)
 
