@@ -12,14 +12,14 @@ def admin():
 @dns_routes.route('/zones', methods=['POST'])
 def create_zone_route():
     """Create a DNS zone from JSON payload."""
-    data = request.get_json() or {}
+    data = request.get_json(silent=True) or request.form
     zone_name = data.get('zone_name')
     admin_email = data.get('admin_email')
     success, message = create_zone(zone_name, admin_email)
     status = 'success' if success else 'error'
     return jsonify({"status": status, "message": message})
 
-@dns_routes.route('/zones/<zone_name>', methods=['DELETE'])
+@dns_routes.route('/zones/<zone_name>', methods=['DELETE', 'POST'])
 def delete_zone_route(zone_name):
     """Delete the DNS zone specified in the URL."""
     success, message = delete_zone(zone_name)
@@ -29,7 +29,7 @@ def delete_zone_route(zone_name):
 @dns_routes.route('/records', methods=['POST'])
 def add_record_route():
     """Add a DNS record based on JSON data."""
-    data = request.get_json() or {}
+    data = request.get_json(silent=True) or request.form
     zone_name = data.get('zone_name')
     record_name = data.get('record_name')
     record_type = data.get('record_type')
@@ -42,7 +42,7 @@ def add_record_route():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@dns_routes.route('/records/<zone_name>/<record_name>', methods=['DELETE'])
+@dns_routes.route('/records/<zone_name>/<record_name>', methods=['DELETE', 'POST'])
 def delete_record_route(zone_name, record_name):
     """Remove a DNS record from a given zone."""
     success, message = delete_record(zone_name, record_name)

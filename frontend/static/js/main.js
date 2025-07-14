@@ -44,6 +44,8 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     });
+
+    initVaultSelection();
 });
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -124,9 +126,35 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.appendChild(popup);
     }
 
-    function copyToClipboard(text) {
-        navigator.clipboard.writeText(text).then(() => {
-            alert('Copied to clipboard!');
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        alert('Copied to clipboard!');
+    });
+}
+
+async function initVaultSelection() {
+    const selectElements = document.querySelectorAll('select[name="vault_id"]');
+    if (!selectElements.length) return;
+
+    try {
+        const res = await fetch('http://localhost:5000/vault/servers');
+        const servers = await res.json();
+        selectElements.forEach(sel => {
+            sel.innerHTML = servers.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
         });
+
+        const activeRes = await fetch('http://localhost:5000/vault/servers/active');
+        const active = await activeRes.json();
+        if (active && active.id) {
+            selectElements.forEach(sel => { sel.value = active.id; });
+            const activeSpan = document.getElementById('active-vault-name');
+            if (activeSpan) {
+                activeSpan.textContent = `${active.name} (${active.address})`;
+            }
+        }
+    } catch (e) {
+        console.error('Failed to load servers', e);
     }
+}
+
 });

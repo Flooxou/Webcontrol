@@ -34,14 +34,14 @@
                 </li>
             </ul>
             <form method="post" action="http://localhost:5000/vault/servers/select" class="nav-form">
-                <select name="vault_id" onchange="this.form.submit()">
+                <select name="vault_id" id="nav-vault-select" onchange="this.form.submit()">
                 </select>
             </form>
         </div>
     </nav>
     <div class="container">
         <h1>Serveurs Vault</h1>
-        <p>Vault actif :  ()</p>
+        <p>Vault actif : <span id="active-vault-name"></span></p>
         <form method="post" action="http://localhost:5000/vault/servers">
             <input type="text" name="name" placeholder="Nom" required>
             <input type="text" name="address" placeholder="Adresse" required>
@@ -50,7 +50,7 @@
         </form>
         <h2>Choisir le Vault actif</h2>
         <form method="post" action="http://localhost:5000/vault/servers/select">
-            <select name="vault_id">
+            <select name="vault_id" id="vault-select">
             </select>
             <button type="submit" class="btn">Sélectionner</button>
         </form>
@@ -63,16 +63,7 @@
                     <th>Actions</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td>
-                        <form method="post" action="http://localhost:5000/vault/servers/SERVER_ID" style="display:inline-block">
-                            <button type="submit" class="btn btn-danger">Supprimer</button>
-                        </form>
-                    </td>
-                </tr>
+            <tbody id="servers-table-body">
             </tbody>
         </table>
     </div>

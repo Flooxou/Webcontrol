@@ -34,7 +34,7 @@ def admin():
 def servers():
     """List and create Vault servers."""
     if request.method == 'POST':
-        data = request.get_json() or {}
+        data = request.get_json(silent=True) or request.form
         server = VaultServer(
             name=data.get('name'),
             address=data.get('address'),
@@ -52,7 +52,7 @@ def servers():
 @vault_routes.route('/servers/select', methods=['POST'])
 def select_server():
     """Select the active Vault server."""
-    data = request.get_json() or {}
+    data = request.get_json(silent=True) or request.form
     server_id = int(data.get('vault_id'))
     server = VaultServer.query.get_or_404(server_id)
     session['vault_id'] = server.id
@@ -60,7 +60,20 @@ def select_server():
     return jsonify({"status": "selected", "server_id": server.id})
 
 
-@vault_routes.route('/servers/<int:server_id>', methods=['DELETE'])
+@vault_routes.route('/servers/active')
+def active_server():
+    """Return the currently selected Vault server."""
+    server_id = session.get('vault_id')
+    if not server_id:
+        return jsonify({"id": None})
+    server = VaultServer.query.get(server_id)
+    if not server:
+        session.pop('vault_id', None)
+        return jsonify({"id": None})
+    return jsonify({"id": server.id, "name": server.name, "address": server.address})
+
+
+@vault_routes.route('/servers/<int:server_id>', methods=['DELETE', 'POST'])
 def delete_server(server_id):
     """Delete a Vault server."""
     server = VaultServer.query.get_or_404(server_id)
@@ -73,7 +86,7 @@ def issue_certificate():
     """Issue a certificate from Vault using form fields."""
     if 'vault_id' not in session:
         return jsonify({"error": "Vault server not selected"}), 400
-    data = request.get_json() or {}
+    data = request.get_json(silent=True) or request.form
     path = data.get('path')
     role_name = data.get('role_name')
     common_name = data.get('common_name')

@@ -34,14 +34,14 @@
                 </li>
             </ul>
             <form method="post" action="http://localhost:5000/vault/servers/select" class="nav-form">
-                <select name="vault_id" onchange="this.form.submit()">
+                <select name="vault_id" id="nav-vault-select" onchange="this.form.submit()">
                 </select>
             </form>
         </div>
     </nav>
     <div class="container">
         <h1>Certificate Details</h1>
-        <p>Vault actif :  ()</p>
+        <p>Vault actif : <span id="active-vault-name"></span></p>
         <table class="table">
             <tbody>
                 <tr>
