@@ -50,6 +50,18 @@ python run.py
 The frontend contained in the `frontend/` directory can be served separately,
 for example using `python -m http.server`.
 
+## Docker
+
+The project provides Docker images for both the API and the web interface.
+Start them together with:
+
+```bash
+docker compose up --build
+```
+
+The API will be available on <http://localhost:5000> and the frontend on
+<http://localhost:8080>.
+
 ## Offline Assets
 
 Font Awesome styles are included in `frontend/static`.
