@@ -6,6 +6,10 @@ services:
       - "5000:5000"
     volumes:
       - ./instance:/app/instance
+    environment:
+      - "SQLALCHEMY_DATABASE_URI=postgresql+psycopg2://webcontrol:webcontrol@db:5432/webcontrol"
+    depends_on:
+      - db
   frontend:
     build:
       context: ./frontend
@@ -13,3 +17,14 @@ services:
       - "8080:80"
     depends_on:
       - backend
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: webcontrol
+      POSTGRES_PASSWORD: webcontrol
+      POSTGRES_DB: webcontrol
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+volumes:
+  db-data:
