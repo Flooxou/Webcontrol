@@ -30,6 +30,9 @@ The application can be configured with several environment variables:
 - `DNS_SERVER` – address of the DNS server. The value comes from the
   `DNS_SERVER` environment variable and defaults to `127.0.0.1` (see
   `app/services/dns/__init__.py`).
+- `SQLALCHEMY_DATABASE_URI` – database connection string used by
+  SQLAlchemy. If not set, the application stores data in a local
+  SQLite file `webcontrol.db`.
 
 ## Running the Application
 
@@ -54,14 +57,15 @@ interact with the API running on port 5000.
 ## Docker
 
 The project provides Docker images for both the API and the web interface.
-Start them together with:
+Start them together with the included PostgreSQL database:
 
 ```bash
 docker compose up --build
 ```
 
 The API will be available on <http://localhost:5000> and the frontend on
-<http://localhost:8080>.
+<http://localhost:8080>. Database files are persisted in the `db-data`
+Docker volume.
 
 ## Docker
 
